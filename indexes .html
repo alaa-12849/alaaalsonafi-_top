@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"> <head>
+    <meta charset="UTF-8">
+    <title>نموذج التسجيل</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* تم تعديل الخلفية إلى تدرج لوني لطيف */
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
+            display: flex;
+            flex-direction: column; /* تغيير الاتجاه للسماح بإضافة التذييل في الأسفل */
+            justify-content: center;
+            align-items: center;
+            /* تم تغيير الارتفاع إلى 100% لإضافة التذييل */
+            min-height: 100vh; 
+            margin: 0;
+        }
+
+        form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            width: 400px;
+            direction: rtl; /* تم تغيير اتجاه النموذج ليتناسب مع اللغة العربية */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"], 
+        input[type="password"], 
+        select, 
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            margin-left: 10px; /* تعديل الهامش ليتوافق مع RTL */
+        }
+
+        /* تعديل محاذاة أزرار الإرسال */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="submit"], input[type="reset"] {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        input[type="reset"] {
+            background-color: #f44336;
+            color: white;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .note-checkbox {
+            margin-bottom: 10px;
+            padding-right: 5px;
+        }
+        
+        /* ------------------ تنسيق التذييل (Footer) ------------------ */
+        .designer-info {
+            text-align: center; /* توسيط المحتوى */
+            margin-top: 30px; /* مسافة من باقي المحتوى */
+            padding: 15px 0; 
+            width: 100%; /* ضمان العرض الكامل */
+            background-color: rgba(255, 255, 255, 0.8); /* خلفية بيضاء شفافة */
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .designer-info p {
+            font-size: 16px; 
+            color: #333; 
+            margin: 0;
+        }
+
+        .designer-name {
+            font-weight: 900; /* خط عريض جداً */
+            color: #1a73e8; /* لون أزرق مميز */
+            padding: 0 5px; 
+        }
+        /* ----------------------------------------------------------- */
+    </style>
+</head>
+<body dir="rtl">
+
+<form id="registrationForm">
+  
+    <h2>تسجيل الدخول</h2>
+
+    <label for="name">الاسم :</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="password">كلمة المرور :</label>
+    <input type="password" name="password" id="password" required>
+
+    <label>الجنس :</label>
+    <div style="margin-bottom: 15px;">
+        <input type="radio" name="gender" value="ذكر" id="male"> ذكر
+        <input type="radio" name="gender" value="أنثى" id="female"> أنثى
+    </div>
+
+    <label for="degree">المؤهل :</label>
+    <select name="degree" id="degree">
+        <option value="">اختر المؤهل</option>
+        <option>ثانوية</option>
+        <option>دبلوم</option>
+        <option>باكالوريوس</option>
+    </select>
+
+    <label>الهوايات :</label>
+    <div class="note-checkbox">
+        <input type="checkbox" name="hobbies" value="القات" id="qat"> القات  
+        <input type="checkbox" name="hobbies" value="البوبجي" id="pubg"> البوبجي
+    </div>
+
+    <label for="notes">ملاحظات :</label>
+    <textarea name="notes" id="notes" rows="4"></textarea>
+
+    <div class="button-group">
+        <input type="reset" value="مسح البيانات">
+        <input type="submit" value="إرسال البيانات">
+    </div>
+  
+</form>
+
+<footer class="designer-info">
+    <p>
+        المصمم : 
+        <span class="designer-name">علاء السنافي</span>
+    </p>
+</footer>
+<script>
+// عند إرسال النموذج
+document.getElementById('registrationForm').addEventListener('submit', function(e){
+    e.preventDefault(); // منع الإرسال التقليدي
+
+    // جمع البيانات
+    const name = document.getElementById('name').value;
+    const password = document.getElementById('password').value;
+    const gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+    const degree = document.getElementById('degree').value;
+
+    let hobbies = [];
+    document.querySelectorAll('input[name="hobbies"]:checked').forEach(cb => hobbies.push(cb.value));
+    const notes = document.getElementById('notes').value;
+
+    // تخزين البيانات في LocalStorage
+    localStorage.setItem('formData', JSON.stringify({name, password, gender, degree, hobbies, notes}));
+
+    // تحويل المستخدم لصفحة النجاح
+    window.location.href = 'success.html';
+});
+</script>
+
+</body>
+</html>

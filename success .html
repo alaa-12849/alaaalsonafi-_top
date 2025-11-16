@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>نجاح الإرسال</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7fa;
+    padding: 50px;
+}
+
+h2 {
+    color: #00796b;
+    text-align: center;
+}
+
+.data-box {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 400px;
+    margin: 20px auto;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.data-box p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+</style>
+</head>
+<body>
+
+<h2>تم إرسال البيانات بنجاح!</h2>
+
+<div class="data-box" id="dataBox">
+    <!-- البيانات ستظهر هنا -->
+</div>
+
+<script>
+// استرجاع البيانات من LocalStorage
+const data = JSON.parse(localStorage.getItem('formData'));
+
+if(data) {
+    const container = document.getElementById('dataBox');
+    container.innerHTML = `
+        <p><strong>الاسم:</strong> ${data.name}</p>
+        <p><strong>كلمة المرور:</strong> ${data.password}</p>
+        <p><strong>الجنس:</strong> ${data.gender}</p>
+        <p><strong>المؤهل:</strong> ${data.degree}</p>
+        <p><strong>الهوايات:</strong> ${data.hobbies.join(', ')}</p>
+        <p><strong>ملاحظات:</strong> ${data.notes}</p>
+    `;
+}
+</script>
+
+</body>
+</html>
