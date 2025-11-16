@@ -1,58 +1,72 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<title>نجاح الإرسال</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #e0f7fa;
-    padding: 50px;
-}
-
-h2 {
-    color: #00796b;
-    text-align: center;
-}
-
-.data-box {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    width: 400px;
-    margin: 20px auto;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-.data-box p {
-    font-size: 16px;
-    margin: 10px 0;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>نجاح التسجيل</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            direction: rtl; /* لجعل النص يبدأ من اليمين */
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            width: 500px;
+            text-align: center;
+        }
+        h1 {
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            text-align: right;
+            line-height: 1.6;
+        }
+        strong {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
 
-<h2>تم إرسال البيانات بنجاح!</h2>
-
-<div class="data-box" id="dataBox">
-    <!-- البيانات ستظهر هنا -->
+<div class="container">
+    <h1>✅ تم التسجيل بنجاح!</h1>
+    <p>لقد تم استلام بياناتك بنجاح. البيانات المخزنة هي:</p>
+    <div id="data-display">
+        </div>
 </div>
 
 <script>
-// استرجاع البيانات من LocalStorage
-const data = JSON.parse(localStorage.getItem('formData'));
+    // 1. قراءة البيانات من LocalStorage
+    const storedData = localStorage.getItem('formData');
+    const displayDiv = document.getElementById('data-display');
 
-if(data) {
-    const container = document.getElementById('dataBox');
-    container.innerHTML = `
-        <p><strong>الاسم:</strong> ${data.name}</p>
-        <p><strong>كلمة المرور:</strong> ${data.password}</p>
-        <p><strong>الجنس:</strong> ${data.gender}</p>
-        <p><strong>المؤهل:</strong> ${data.degree}</p>
-        <p><strong>الهوايات:</strong> ${data.hobbies.join(', ')}</p>
-        <p><strong>ملاحظات:</strong> ${data.notes}</p>
-    `;
-}
+    if (storedData) {
+        const formData = JSON.parse(storedData);
+
+        // 2. عرض البيانات
+        displayDiv.innerHTML = `
+            <p><strong>الاسم:</strong> ${formData.name}</p>
+            <p><strong>كلمة المرور (للتجربة فقط):</strong> ${formData.password}</p>
+            <p><strong>الجنس:</strong> ${formData.gender || 'لم يتم الاختيار'}</p>
+            <p><strong>المؤهل:</strong> ${formData.degree || 'لم يتم الاختيار'}</p>
+            <p><strong>الهوايات:</strong> ${formData.hobbies.join(', ') || 'لا توجد هوايات محددة'}</p>
+            <p><strong>ملاحظات:</strong> ${formData.notes || 'لا توجد ملاحظات'}</p>
+        `;
+
+    } else {
+        displayDiv.innerHTML = '<p>⚠️ لم يتم العثور على بيانات تسجيل!</p>';
+    }
 </script>
 
 </body>
